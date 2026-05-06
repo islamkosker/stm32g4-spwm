@@ -43,9 +43,9 @@ static inline uint32_t to_hal_channel(interface_pwm_channel_t ch)
     switch (ch)
     {
     case INTF_PWM_CH1: return TIM_CHANNEL_1;
-    case INTF_PWM_CH2: return TIM_CHANNEL_1;
-    case INTF_PWM_CH3: return TIM_CHANNEL_1;
-    case INTF_PWM_CH4: return TIM_CHANNEL_1;
+    case INTF_PWM_CH2: return TIM_CHANNEL_2;
+    case INTF_PWM_CH3: return TIM_CHANNEL_3;
+    case INTF_PWM_CH4: return TIM_CHANNEL_4;
     default: return UINT32_MAX;
     }
 }
