@@ -1,0 +1,24 @@
+{
+  "clangd.path": "C:/compiler/llvm/bin/clangd.exe",
+  "clangd.arguments": [
+    "--background-index",
+    "--clang-tidy",
+    "--header-insertion=never",
+    "--query-driver=C:/compiler/arm/bin/arm-none-eabi-*,C:/compiler/gcc/bin/gcc.exe"
+  ],
+  "clangd.checkUpdates": false,
+  "clangd.onConfigChanged": "restart",
+
+  "C_Cpp.intelliSenseEngine": "disabled",
+  "C_Cpp.autocomplete": "disabled",
+  "C_Cpp.errorSquiggles": "disabled",
+  "C_Cpp.formatting": "disabled",
+  "C_Cpp.codeAnalysis.runAutomatically": false,
+
+  "[c]": {
+    "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+  },
+  "[cpp]": {
+    "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+  }
+}

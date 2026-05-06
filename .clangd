@@ -1,0 +1,28 @@
+CompileFlags:
+  CompilationDatabase: .build/Debug
+  Remove:
+    - -mcpu=*
+    - -mfpu=*
+    - -mfloat-abi=*
+    - -mthumb
+    - --specs=*
+    - -fcyclomatic-complexity
+    - -fstack-usage
+  Add:
+    - -Wno-unknown-warning-option
+    - -Wno-unknown-attributes
+
+Diagnostics:
+  UnusedIncludes: None
+  Suppress:
+    - unused-includes
+    - -Wunknown-pragmas
+
+Index:
+  Background: Build
+  StandardLibrary: Yes
+
+InlayHints:
+  Enabled: Yes
+  ParameterNames: Yes
+  DeducedTypes: Yes
