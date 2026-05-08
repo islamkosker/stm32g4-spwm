@@ -68,20 +68,20 @@ typedef struct
     hal_abc_ptr_t timer;
     pwm_channel_t pwm_channels[DEFAULT_PWM_CHANNEL_COUNT];
     bool freq_update_pending;
+    bool run;
 } pwm_group_t;
 
 extern pwm_group_t PWM_GROUPS[TIMER_COUNT];
 extern hal_abc_ptr_t PWM_TIMER_HANDLES[TIMER_COUNT];
 extern const timer_config_t PWM_CONFIGS[SINE_FREQ_COUNT];
 
-
 void pwm_init(void);
 void pwm_set_frequency(timer_id_t t, freq_config_id_t freq);
 void pwm_set_frequency_live(timer_id_t t, freq_config_id_t freq);
-void pwm_set_amplitude(timer_id_t t, pwm_channel_id_t ch, uint32_t scale, bool phase_inverted);
+void pwm_set_amplitude(const timer_id_t t, const pwm_channel_id_t ch, const bool phase_inverted,
+                       uint32_t scale);
 freq_config_id_t pwm_get_frequency_id(timer_id_t t);
 void pwm_start(timer_id_t t);
 void pwm_stop(timer_id_t t);
 void pwm_irq_dispatch(hal_abc_ptr_t tim, pwm_event_t event);
-
 #endif
