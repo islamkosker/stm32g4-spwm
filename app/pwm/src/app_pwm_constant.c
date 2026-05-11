@@ -9,6 +9,7 @@
 
 #include "app_pwm.h"
 #include "app_pwm_config.h"
+
 uint32_t (*DMA_BUFFER_PTR[TIMER_COUNT])[DEFAULT_PWM_CHANNEL_COUNT] = {
 #define X(id, hw, handle) [id] = DMA_BUFFER_##hw,
     TIMER_LIST

@@ -9,6 +9,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/interface/pwm/src/interface_pwm.c
     ${CMAKE_CURRENT_SOURCE_DIR}/interface/timer/src/interface_timer.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/interface/uart/src/interface_uart.c
 )
 
 # PWM
@@ -18,9 +19,18 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/pwm/src/pwm_bindings.c
 )
 
+# PROTOCOL
+target_sources(${CMAKE_PROJECT_NAME} PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/protocol/src/app_protocol.c
+)
+
+
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/interface/
     ${CMAKE_CURRENT_SOURCE_DIR}/pwm/inc/
+    ${CMAKE_CURRENT_SOURCE_DIR}/protocol/inc/
+    ${CMAKE_CURRENT_SOURCE_DIR}/interface/
     ${CMAKE_CURRENT_SOURCE_DIR}/interface/pwm/inc/
     ${CMAKE_CURRENT_SOURCE_DIR}/interface/timer/inc/
+    ${CMAKE_CURRENT_SOURCE_DIR}/interface/uart/inc/
+
 )

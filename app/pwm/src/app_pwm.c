@@ -32,7 +32,7 @@ static const uint32_t* get_lut(const freq_config_id_t freq)
 static inline void set_frequency(pwm_group_t* const pwm_grp, const freq_config_id_t freq)
 {
     pwm_grp->lut = get_lut(freq);
-    pwm_grp->timer_config = &PWM_CONFIGS[freq];
+    pwm_grp->timer_config = &TIMER_CONFIGS[freq];
     pwm_grp->freq_id = freq;
 }
 
@@ -112,7 +112,7 @@ void pwm_init(void)
         PWM_GROUPS[t].dma_buffer = DMA_BUFFER_PTR[t];
         PWM_GROUPS[t].timer = PWM_TIMER_HANDLES[t];
         PWM_GROUPS[t].lut = LUT_3KHZ;
-        PWM_GROUPS[t].timer_config = &PWM_CONFIGS[SINE_FREQ_3KHZ];
+        PWM_GROUPS[t].timer_config = &TIMER_CONFIGS[SINE_FREQ_3KHZ];
         PWM_GROUPS[t].freq_id = SINE_FREQ_3KHZ;
 
         PWM_GROUPS[t].pwm_channels[0] = (pwm_channel_t){
@@ -166,7 +166,6 @@ freq_config_id_t pwm_get_frequency_id(const timer_id_t t)
     return PWM_GROUPS[t].freq_id;
 }
 
-
 void pwm_set_amplitude(const timer_id_t t, const pwm_channel_id_t ch, const bool phase_inverted,
                        uint32_t scale)
 {
@@ -177,10 +176,18 @@ void pwm_set_amplitude(const timer_id_t t, const pwm_channel_id_t ch, const bool
 
     if (scale > PWM_SCALE_MAX) scale = PWM_SCALE_MAX;
 
-    c->pending_scale = scale;
-    c->pending_phase_inverted = phase_inverted;
-    c->commit_mask = COMMIT_PENDING;
-    c->update_pending = true;
+    if (!c->update_pending)
+    {
+        c->pending_scale = scale;
+        c->pending_phase_inverted = phase_inverted;
+        c->commit_mask = COMMIT_PENDING;
+        c->update_pending = true;
+    }
+    else
+    {
+        c->pending_scale = scale;
+        c->pending_phase_inverted = phase_inverted;
+    }
 }
 
 static void pwm_channel_on_dma_event(pwm_group_t* const p, const pwm_channel_id_t ch,
@@ -192,7 +199,7 @@ static void pwm_channel_on_dma_event(pwm_group_t* const p, const pwm_channel_id_
 
     if (!c->update_pending) return;
 
-    if (c->commit_mask == COMMIT_PENDING) 
+    if (c->commit_mask == COMMIT_PENDING)
     {
         c->scale = c->pending_scale;
         c->phase_inverted = c->pending_phase_inverted;

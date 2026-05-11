@@ -64,7 +64,7 @@ typedef struct
     uint32_t (*dma_buffer)[DEFAULT_PWM_CHANNEL_COUNT];
     const uint32_t* lut;
     const timer_config_t* timer_config;
-    freq_config_id_t freq_id; /* selected PWM_CONFIGS / LUT profile, for telemetry */
+    freq_config_id_t freq_id; /* selected TIMER_CONFIGS / LUT profile, for telemetry */
     hal_abc_ptr_t timer;
     pwm_channel_t pwm_channels[DEFAULT_PWM_CHANNEL_COUNT];
     bool freq_update_pending;
@@ -73,11 +73,10 @@ typedef struct
 
 extern pwm_group_t PWM_GROUPS[TIMER_COUNT];
 extern hal_abc_ptr_t PWM_TIMER_HANDLES[TIMER_COUNT];
-extern const timer_config_t PWM_CONFIGS[SINE_FREQ_COUNT];
+extern const timer_config_t TIMER_CONFIGS[SINE_FREQ_COUNT];
 
 void pwm_init(void);
 void pwm_set_frequency(timer_id_t t, freq_config_id_t freq);
-void pwm_set_frequency_live(timer_id_t t, freq_config_id_t freq);
 void pwm_set_amplitude(const timer_id_t t, const pwm_channel_id_t ch, const bool phase_inverted,
                        uint32_t scale);
 freq_config_id_t pwm_get_frequency_id(timer_id_t t);
