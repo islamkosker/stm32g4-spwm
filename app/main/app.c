@@ -1,5 +1,5 @@
 #include "app_protocol.h"
-
+#include "interface_uart.h"
 #include "app_pwm.h"
 
 void app(void)
@@ -13,4 +13,8 @@ void app(void)
 
     pwm_start(TIMER_1);
 
+    while (1)
+    {
+        interface_uart_poll_tx();
+    }
 }
