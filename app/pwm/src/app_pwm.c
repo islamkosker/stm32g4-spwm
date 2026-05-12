@@ -166,6 +166,9 @@ freq_config_id_t pwm_get_frequency_id(const timer_id_t t)
     return PWM_GROUPS[t].freq_id;
 }
 
+#include "stdio.h"
+
+
 void pwm_set_amplitude(const timer_id_t t, const pwm_channel_id_t ch, const bool phase_inverted,
                        uint32_t scale)
 {
@@ -176,18 +179,15 @@ void pwm_set_amplitude(const timer_id_t t, const pwm_channel_id_t ch, const bool
 
     if (scale > PWM_SCALE_MAX) scale = PWM_SCALE_MAX;
 
+    c->pending_scale = scale;
+    c->pending_phase_inverted = phase_inverted;
+
     if (!c->update_pending)
     {
-        c->pending_scale = scale;
-        c->pending_phase_inverted = phase_inverted;
         c->commit_mask = COMMIT_PENDING;
         c->update_pending = true;
     }
-    else
-    {
-        c->pending_scale = scale;
-        c->pending_phase_inverted = phase_inverted;
-    }
+
 }
 
 static void pwm_channel_on_dma_event(pwm_group_t* const p, const pwm_channel_id_t ch,

@@ -8,7 +8,6 @@
  */
 
 #include "app_protocol.h"
-#include "app_pwm.h"
 #include "interface_uart.h"
 #include <string.h>
 
@@ -54,7 +53,7 @@ static uint8_t crc_block(uint8_t crc, const uint8_t* data, size_t n)
     return crc;
 }
 
-static void protocol_pack_pwm_status(timer_id_t t, uint8_t* p_hi, uint8_t* p_lo)
+void protocol_pack_pwm_status(timer_id_t t, uint8_t* p_hi, uint8_t* p_lo)
 {
     if (t >= TIMER_COUNT || p_hi == NULL || p_lo == NULL)
     {

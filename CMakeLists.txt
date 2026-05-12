@@ -19,7 +19,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 # Set the project name
-set(CMAKE_PROJECT_NAME stm32g4-spwm)
+set(CMAKE_PROJECT_NAME stm32g4-uart)
 
 # Enable compile command to ease indexing with e.g. clangd
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
@@ -31,39 +31,48 @@ message("Build type: " ${CMAKE_BUILD_TYPE})
 # Enable CMake support for ASM and C languages
 enable_language(C ASM)
 
-# Create an executable object type
-add_executable(${CMAKE_PROJECT_NAME})
+message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "Build_APP: ${BUILD_APP}")
+message(STATUS "Build_TEST: ${BUILD_TEST}")
+message(STATUS "System: ${CMAKE_SYSTEM_NAME}")
 
-# Add STM32CubeMX generated sources
-add_subdirectory(cmake/stm32cubemx)
-add_subdirectory(app)
+option(BUILD_APP "Building for app firmware" ON)
+option(BUILD_TEST "Building for unit test" OFF)
 
-# Link directories setup
-target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user defined library search paths
-)
 
-# Add sources to executable
-target_sources(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user sources here
-)
+if(BUILD_APP)
 
-# Add include paths
-target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user defined include paths
-)
+    # Create an executable object type
+    add_executable(${CMAKE_PROJECT_NAME})
+    # Add STM32CubeMX generated sources
+    add_subdirectory(cmake/stm32cubemx)
+    add_subdirectory(app)
 
-# Add project symbols (macros)
-target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user defined symbols
-)
+    # Link directories setup
+    target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
+        # Add user defined library search paths
+    )
 
-# Remove wrong libob.a library dependency when using cpp files
-list(REMOVE_ITEM CMAKE_C_IMPLICIT_LINK_LIBRARIES ob)
+    # Add project symbols (macros)
+    target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
+        # Add user defined symbols
+    )
 
-# Add linked libraries
-target_link_libraries(${CMAKE_PROJECT_NAME}
-    stm32cubemx
+    # Remove wrong libob.a library dependency when using cpp files
+    list(REMOVE_ITEM CMAKE_C_IMPLICIT_LINK_LIBRARIES ob)
 
-    # Add user defined libraries
-)
+    # Add linked libraries
+    target_link_libraries(${CMAKE_PROJECT_NAME}
+        stm32cubemx
+
+        # Add user defined libraries
+    )
+
+endif()
+
+if(BUILD_TEST)
+    include(CTest)
+    enable_testing()
+    add_subdirectory(tests)
+    
+endif()

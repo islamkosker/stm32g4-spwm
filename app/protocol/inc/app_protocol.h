@@ -13,6 +13,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include "app_pwm.h"
 
 
 #define UART_SOF 0xAAU
@@ -23,7 +24,6 @@ typedef enum
     CMD_SET_FREQ = 0x01,
     CMD_TIMER_START,
     CMD_TIMER_STOP,
-    CMD_SET_MODE,
     CMD_SET_AMPL,
     CMD_GET_PWM_STATUS,
 } uart_cmd_t;
@@ -52,5 +52,7 @@ bool protocol_dispatcher_check(uart_parser_t* parser, uint8_t byte);
 void protocol_dispatcher(uart_parser_t* parser);
 void protocol_dispatcher_feed(const uint8_t* data, uint16_t len);
 void protocol_dispatcher_init(void);
+
+void protocol_pack_pwm_status(timer_id_t t, uint8_t* p_hi, uint8_t* p_lo);
 
 #endif // APP_PROTOCOL_H

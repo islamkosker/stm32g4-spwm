@@ -16,6 +16,13 @@ uint32_t (*DMA_BUFFER_PTR[TIMER_COUNT])[DEFAULT_PWM_CHANNEL_COUNT] = {
 #undef X
 };
 
+#define X(id, hw, handle) \
+    uint32_t DMA_BUFFER_##hw[DEFAULT_LUT_SIZE][DEFAULT_PWM_CHANNEL_COUNT] = {0};
+
+TIMER_LIST
+
+#undef X
+
 pwm_group_t PWM_GROUPS[TIMER_COUNT];
 
 const timer_config_t TIMER_CONFIGS[SINE_FREQ_COUNT] = {
