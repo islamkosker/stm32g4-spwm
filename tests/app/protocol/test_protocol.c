@@ -88,7 +88,7 @@ void test_set_mode_rejects_out_of_range(void)
 void test_set_ampl_in_phase_is_always_accepted(void)
 {
     test_common_reset_all();
-    uart_parser_t parser;
+    uart_parser_t parser = {0};
     protocol_dispatcher_init();
 
     send_packet(&parser, CMD_SET_AMPL, pack_ampl_phi(TIMER_1, false, PWM_CH1), 128);
