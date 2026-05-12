@@ -1,0 +1,44 @@
+name: CMake Test
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+jobs:
+  build-arm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ARM toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build cmake gcc-arm-none-eabi
+      - name: Cache build
+        uses: actions/cache@v4
+        with:
+          path: .build
+          key: ${{ runner.os }}-arm-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
+      - name: Build (Debug)
+        run: |
+          cmake --preset Debug
+          cmake --build --preset Debug
+
+  unit-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build cmake gcc g++
+      - name: Cache build
+        uses: actions/cache@v4
+        with:
+          path: .build-test
+          key: ${{ runner.os }}-test-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
+      - name: Configure & Build
+        run: |
+          cmake --preset Test
+          cmake --build --preset Test
+      - name: Run tests
+        run: ctest --preset tester --output-on-failure
